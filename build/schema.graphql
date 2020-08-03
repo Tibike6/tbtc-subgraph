@@ -1,0 +1,71 @@
+type Block @entity {
+  "block hash"
+  id: ID!
+  hash: Bytes
+  parentHash: Bytes
+  unclesHash: Bytes
+  author: Bytes
+  stateRoot: Bytes
+  transactionsRoot: Bytes
+  receiptsRoot: Bytes
+  number: BigInt
+  gasUsed: BigInt
+  gasLimit: BigInt
+  timestamp: BigInt
+  difficulty: BigInt
+  totalDifficulty: BigInt
+  size: BigInt
+  transactions: [Transaction!]! @derivedFrom(field: "block")
+}
+
+type Transaction @entity {
+  "transaction hash"
+  id: ID!
+  hash: Bytes
+  index: BigInt
+  from: Bytes
+  to: Bytes
+  value: BigInt
+  gasUsed: BigInt
+  gasPrice: BigInt
+  timestamp: BigInt
+  block: Block!
+  transferEvents: [Transfer!]! @derivedFrom(field: "transaction")
+  approvalEvents: [Approval!]! @derivedFrom(field: "transaction")
+}
+
+type Approval @entity {
+  "Transaction hash concatenated with event log index"
+  id: ID!
+  value: BigInt!
+  owner: Bytes!
+  spender: Bytes!
+  timestamp: BigInt
+  transaction: Transaction!
+}
+
+type Transfer @entity {
+  "Transaction hash concatenated with event log index"
+  id: ID!
+  value: BigDecimal!
+  from: Bytes!
+  to: Bytes!
+  timestamp: BigInt
+  transaction: Transaction!
+}
+
+type DailyTransferAggregation @entity {
+  "Day as string format: YYYY-MM-DD"
+  id: ID!
+  timestamp: BigInt
+  count: BigInt!
+  sum: BigDecimal!
+}
+
+type MontlyTransferAggregation @entity {
+  "Day as string format: YYYY-MM"
+  id: ID!
+  timestamp: BigInt
+  count: BigInt!
+  sum: BigDecimal!
+}
