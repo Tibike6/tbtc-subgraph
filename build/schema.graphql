@@ -69,3 +69,20 @@ type MontlyTransferAggregation @entity {
   count: BigInt!
   sum: BigDecimal!
 }
+
+type Governance @entity {
+  "ID is GOVERNANCE"
+  id: ID!
+  name: String!
+  symbol: String!
+  contractAddress: String!
+  decimals: Int!
+  maxSupply: BigInt!
+  tokenHolders: BigInt!
+}
+
+type TokenHolder @entity {
+  id: ID!
+  tokenBalance: BigInt!
+  transfersCount: BigInt!
+}
